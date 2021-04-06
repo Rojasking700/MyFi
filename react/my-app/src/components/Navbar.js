@@ -1,12 +1,44 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom'
+
+
 export default class Navbar extends Component {
+
+    constructor(){
+        super();
+
+        this.state = {
+            redirect: null
+        }
+    }
+    // async searchSymbol(e){
+    //     e.preventDefault()
+    //     let res = await fetch('http://127.0.0.1:5000/info/search', {
+    //         method: 'POST',
+    //         headers: { 
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             "keyword" : e.target.keyword.value
+    //             // "keyword" : "tesco"
+    //         })
+    //     })
+    //     this.setState({redirect : `/searchresults`})
+    // }
     render() {
+        if(this.props.redirect) {
+            let redir = this.props.redirect
+            console.log(redir)
+            // this.setState({redirect: null})
+            return <Redirect to={redir} />
+        }
         return (
             <div>
+
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-fluid">
-                <a className="navbar-brand" href="/">Navbar</a>
+                <a className="navbar-brand" href="/">MyFi</a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -36,17 +68,17 @@ export default class Navbar extends Component {
                     </ul>
                     </div>
                     
-                    {/* <div classname="navbar collapse navbar-collapse" id="navbarSupportedContent"> */}
-                    <form class="">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <form className="" onSubmit={(e) => this.props.searchSymbol(e)}>
+                    <input className="form-control mr-sm-2" type="search" name="keyword" placeholder="Search symbol" aria-label="Search"/>
+                    <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
-                    {/* </div> */}
-
                     
-                </div>
+                </div>  
+                    
+                
                 </nav>
-            </div>
+                </div>
+            // </div>
         )
     }
 }
