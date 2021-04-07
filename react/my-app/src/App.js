@@ -39,7 +39,7 @@ export default class App extends Component {
               <Route exact path="/" render={() => <Home />} />
               <Route exact path="/chart" render={() => <Charts/> } />
               <Route exact path="/searchresults" render={() => <SearchResults searchSymbol={this.searchSymbol} keyword={this.state.keyword}/> } />
-              <Route exact path="/qouteendpoint/:sym" render={(match) => <QouteEndpoint match={match} /> } />
+              <Route exact path="/qouteendpoint/:sym" render={({match}) => <QouteEndpoint match={match} /> } />
             </Switch>
           </main>
         </div>
