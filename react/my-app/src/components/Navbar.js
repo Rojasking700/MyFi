@@ -9,30 +9,22 @@ export default class Navbar extends Component {
         super();
 
         this.state = {
-            redirect: null
+            redirect: null,
+            keyword: null
         }
     }
-    // async searchSymbol(e){
-    //     e.preventDefault()
-    //     let res = await fetch('http://127.0.0.1:5000/info/search', {
-    //         method: 'POST',
-    //         headers: { 
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //             "keyword" : e.target.keyword.value
-    //             // "keyword" : "tesco"
-    //         })
-    //     })
-    //     this.setState({redirect : `/searchresults`})
-    // }
+    searchSymbol() {
+        // e.preventDefault();
+    
+        this.setState({
+          // redirect1 : `/searchresults`,
+          keyword : document.getElementById('keyword').value
+      });
+      console.log("keyword",this.state.keyword)
+    }
+    
     render() {
-        if(this.props.redirect) {
-            let redir = this.props.redirect
-            console.log(redir)
-            // this.setState({redirect: null})
-            return <Redirect to={redir} />
-        }
+
         return (
             <div>
 
@@ -49,7 +41,7 @@ export default class Navbar extends Component {
                         <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="/">Link</a>
+                        <a className="nav-link" href="searchresults">Search</a>
                     </li>
                     <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -62,16 +54,30 @@ export default class Navbar extends Component {
                         <a className="dropdown-item" href="/">Something else here</a>
                         </div>
                     </li>
-                    <li className="nav-item">
-                        <a className="nav-link disabled" href="/">Disabled</a>
-                    </li>
+                    
                     </ul>
                     </div>
-                    
-                    <form className="" onSubmit={(e) => this.props.searchSymbol(e)}>
-                    <input className="form-control mr-sm-2" type="search" name="keyword" placeholder="Search symbol" aria-label="Search"/>
-                    <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </form>
+                    {/* onClick={(e) => this.props.searchSymbol(e)} */}
+                    {/* <form className="row g-1" >
+                    <div className="col-auto">
+                        
+                    </div>
+                    <div className="col-auto">
+                        <input className="form-control mr-sm-2" type="search" name="keyword" id="keyword" placeholder="Search symbol" aria-label="Search"/>
+                        <Link className="btn btn-outline-primary my-2 my-sm-0 float-end" aria-current="page" type="submit" onClick={() => this.searchSymbol()} to={`/searchresults/${this.state.keyword}`}> */}
+                            {/* <button className="btn btn-outline-primary my-2 my-sm-0 float-end" onClick={() => this.searchSymbol()} type="submit">search</button> */}
+                        {/* </Link> */}
+                        {/* <Link to={{
+                            pathname: '/searchresults',
+                            search: '?symbol=AAPL'
+                        }}>     */}
+                        
+
+
+                            {/* <button className="btn btn-outline-primary my-2 my-sm-0 float-end" type="submit">TEST ME</button> */}
+                        {/* </Link>                         */}
+                    {/* </div>
+                    </form> */}
                     
                 </div>  
                     

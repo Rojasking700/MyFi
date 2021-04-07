@@ -111,7 +111,7 @@ class SearchEndpoint():
             'symbol' : self.symbol,
             'name' : self.name,
             'region': self.region,
-            'type' : self.types,
+            'types' : self.types,
             'region' : self.region,
             'currency' : self.currency,
             'matchScore' : self.matchScore
