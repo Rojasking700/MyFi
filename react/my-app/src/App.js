@@ -7,17 +7,48 @@ import Charts from './components/Chart';
 import SearchResults from './views/SearchResults';
 import { Redirect } from 'react-router-dom'
 import QouteEndpoint from './views/QouteEndpoint';
+import Signup from './views/Signup';
+import Login from './views/Login';
 
 export default class App extends Component {
   constructor(){
     super();
 
     this.state = {
-      redirect1: null,
-      keyword: null
+      redirect: null,
+      keyword: null,
+      username : null,
+      passord: null,
+      token : null
     }
   }
 
+  handleLogin = async(e) => {
+    e.preventDefault();
+    const username = e.target.username.value
+    const password = e.target.password.value
+    this.setState({
+      username : username,
+      password : password,
+      redirect : '/'
+    })
+    let token = await this.getToken(username,password);
+    this.setState({token : token['token']});
+    console.log('log in', token)
+
+  }
+
+  getToken = async(username=this.state.username, password=this.state.password) => { 
+    let res = await fetch('http://localhost:5000/tokens', { 
+      method: 'POST',
+      headers:{
+        'Authorization': 'Basic ' + btoa(`${username}:${password}`)
+      }
+    })
+    let token = await res.json();
+    console.log('token', token['token'])
+    return token
+  }
 
   searchSymbol = async(e) =>{
     e.preventDefault();
@@ -33,13 +64,15 @@ export default class App extends Component {
   render() {
     return (
         <div>
-          <Navbar searchSymbol={this.searchSymbol} redirect={this.state.redirect1}  />
+          <Navbar searchSymbol={this.searchSymbol} redirect={this.state.redirect}  />
           <main>
             <Switch>
               <Route exact path="/" render={() => <Home />} />
               <Route exact path="/chart" render={() => <Charts/> } />
               <Route exact path="/searchresults" render={() => <SearchResults searchSymbol={this.searchSymbol} keyword={this.state.keyword}/> } />
               <Route exact path="/qouteendpoint/:sym" render={({match}) => <QouteEndpoint match={match} /> } />
+              <Route exact path="/signup" render={() => <Signup /> } />
+              <Route exact path="/login" render={() => <Login handleLogin={this.handleLogin} getToken={this.getToken} redirect={this.state.redirect} /> } />
             </Switch>
           </main>
         </div>
