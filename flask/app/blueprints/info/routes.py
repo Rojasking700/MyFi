@@ -24,3 +24,13 @@ def globalqoute(sym):
         return jsonify(quoteEndpoint.to_dict())
     else:
         return jsonify("not working")
+
+
+@info.route('/timeseries/<string:time>/<string:sym>', methods=['GET', 'POST'])
+def timeseries(time,sym):
+    api = AlphaVantageAPI()
+    timeseries = api.getStockTimeSeriesAdj(time,sym)
+    if (timeseries):
+        return jsonify([t.to_dict() for t in timeseries])
+    else: 
+        return jsonify("not working")

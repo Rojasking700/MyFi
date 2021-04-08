@@ -40,13 +40,13 @@ class AlphaVantageAPI():
         symbolSearch = 'SYMBOL_SEARCH'
         kword = '&keywords='
         url = self.base_path +  symbolSearch + kword + keyWord + self.apikey_URL + self.api_key
-        print(url)
+        # print(url)
         response = requests.get(url)
         try:
             data = response.json()['bestMatches']
             print('this is the data ',data)
             for i in data:
-                print('this one',i)
+                # print('this one',i)
                 symbol = i['1. symbol']
                 name = i['2. name']
                 types = i['3. type']
@@ -59,6 +59,44 @@ class AlphaVantageAPI():
             return searchPoints 
         except KeyError:
             return None
+# https://www.alphavantage.co/query?function=TIME_SERIES__MONTHLY_ADJUSTED&symbol=IBM&apikey=demo
+# https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=IBM&apikey=demo
+# https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&interval=5min&symbol=IBM&apikey=LGEV09IJBW2JYQ1U
+    def getStockTimeSeriesAdj(self,timeWindow, symbol):
+        times = []
+        timseries = 'TIME_SERIES_'
+        url = self.base_path + timseries + timeWindow + self.sym_URL + symbol + self.apikey_URL + self.api_key
+        # print(url)
+        response = requests.get(url)
+        try:
+            data = response.json()
+            metaData = data['Meta Data']
+            symbol = metaData['2. Symbol']
+            info = metaData['1. Information']
+            lastRefresh = metaData['3. Last Refreshed']
+
+            timeseriesData = data['Monthly Adjusted Time Series']
+            # print('timeserisData', timeseriesData)
+            for a in timeseriesData:
+                i = timeseriesData[a]
+                # print('time series', i)
+                # print('time', a)
+                time = a
+                opens = i['1. open']
+                high = i['2. high']
+                low = i['3. low']
+                close = i['4. close']
+                adjustedClose = i['5. adjusted close']
+                volume = i['6. volume']
+                dividenAmount = i['7. dividend amount']
+
+                stockTimeSeriesADJ = stockTimeSeriesAdjusted(time,symbol,info,lastRefresh,opens, high, low,close,adjustedClose,volume,dividenAmount)
+                times.append(stockTimeSeriesADJ)
+            
+            return times
+        except KeyError:
+            return None
+
 
 
 
@@ -76,9 +114,9 @@ class QuoteEndpoint:
         self.change = change_per
 
     def __str__(self):
-        return f"stonk {self.symbol}"
+        return f"stonk ${self.symbol}"
     def __repr__(self):
-        return f"<stonk | {self.symbol}"
+        return f"<stonk | ${self.symbol}>"
 
     def to_dict(self):
         return{
@@ -119,4 +157,40 @@ class SearchEndpoint():
             'region' : self.region,
             'currency' : self.currency,
             'matchScore' : self.matchScore
+        }
+
+class stockTimeSeriesAdjusted():
+    
+    def __init__(self,time,symbol,info,lastRefresh,opens,high,low,close,adjustedClose,volume,dividenAmount):
+        self.time = time
+        self.symbol = symbol
+        self.info = info 
+        self.lastRefresh = lastRefresh
+        self.opens = opens
+        self.high = high
+        self.low = low
+        self.close = close
+        self.adjustedClose = adjustedClose
+        self.volume = volume
+        self.dividenAmount = dividenAmount
+
+
+    def __str__(self):
+        return f"Stock Time Series ${self.symbol}"
+    def __repr__(self):
+        return f"<Stock Time Series ${self.symbol}"
+
+    def to_dict(self):
+        return {
+            'time' : self.time,
+            'symbol' : self.symbol,
+            'info' : self.info,
+            'lastRefresh' : self.lastRefresh,
+            'opens' : self.opens,
+            'high' : self.high,
+            'low' : self.low,
+            'close' : self.close,
+            'adjustedClose' : self.adjustedClose,
+            'volume' : self.volume,
+            'dividenAmount' : self.dividenAmount
         }
