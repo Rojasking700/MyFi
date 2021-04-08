@@ -9,6 +9,7 @@ import { Redirect } from 'react-router-dom'
 import QouteEndpoint from './views/QouteEndpoint';
 import Signup from './views/Signup';
 import Login from './views/Login';
+import ls from "local-storage";
 
 export default class App extends Component {
   constructor(){
@@ -19,7 +20,8 @@ export default class App extends Component {
       keyword: null,
       username : null,
       passord: null,
-      token : null
+      token : null,
+      verifcation : null
     }
   }
 
@@ -47,7 +49,32 @@ export default class App extends Component {
     })
     let token = await res.json();
     console.log('token', token['token'])
+    ls.set('token', token['token'])
+    console.log('local storage token', ls.get('token'))
+
     return token
+  }
+  
+  checkToken = async() => {
+    if (ls.get('token')){
+
+      let res = await fetch('http://localhost:5000/checktoken', {
+        method: 'POST',
+        headers : {
+          'Authorization' : 'Bearer ' + ls.get('token'),
+          'Content-Type' : 'application/json'
+        }
+      })
+      let Authorization = await res.json()
+      console.log('Authorization', Authorization['token'])
+      return Authorization['token']
+    }
+    console.log('Authorization', ls.get('token'))
+    return false
+  }
+
+  logout = () => {
+    ls.set('token', null)
   }
 
   searchSymbol = async(e) =>{
@@ -64,7 +91,7 @@ export default class App extends Component {
   render() {
     return (
         <div>
-          <Navbar searchSymbol={this.searchSymbol} redirect={this.state.redirect}  />
+          <Navbar searchSymbol={this.searchSymbol} redirect={this.state.redirect} checkToken={this.checkToken} logout={this.logout}/>
           <main>
             <Switch>
               <Route exact path="/" render={() => <Home />} />
