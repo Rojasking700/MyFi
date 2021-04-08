@@ -4,20 +4,23 @@ from flask import current_app as app, jsonify, request
 from app.wrappers import AlphaVantageAPI
 
 
-@info.route('/search', methods=['GET','POST'])
-def search():
+@info.route('/search/<string:sym>', methods=['GET','POST'])
+def search(sym):
     data = request.json
-    
-    if request.method == 'POST':
-        keyword = data['keyword']
-        api = AlphaVantageAPI()
-        searchEndpoint = api.getSearchEndpoint(keyword)
-        if type(searchEndpoint) == list:
-            return jsonify([se.to_dict() for se in searchEndpoint])
-        else:
-            return jsonify('not available')
-    
+    api = AlphaVantageAPI()
+    searchEndpoint = api.getSearchEndpoint(sym)
+    if (searchEndpoint):
+        return jsonify([se.to_dict() for se in searchEndpoint])
+    else:
+        return jsonify('not available')
+
+
+
+@info.route('/globalqoute/<string:sym>', methods=['GET','POST'])
+def globalqoute(sym):
+    api = AlphaVantageAPI()
+    quoteEndpoint = api.getQouteEndpoint(sym)
+    if (quoteEndpoint):
+        return jsonify(quoteEndpoint.to_dict())
     else:
         return jsonify("not working")
-
-

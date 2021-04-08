@@ -11,7 +11,7 @@ export default class Home extends Component {
         }
     }
     componentDidMount(){
-        fetch(`http://localhost:5000/`)
+        fetch(`http://127.0.0.1:5000/info/globalqoute/IBM`)
         .then(res => res.json())
         .then(data => this.setState({stonk: data}))
         // .then(data => console.log(data))
@@ -22,6 +22,7 @@ export default class Home extends Component {
     render() {
         
         const s = this.state.stonk;
+        
         // console.log(s)
         // console.log(s['01. symbol'])
         return (

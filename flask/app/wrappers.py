@@ -1,5 +1,6 @@
 import requests
 from datetime import datetime
+from config import Config
 
 class AlphaVantageAPI():
 
@@ -7,7 +8,7 @@ class AlphaVantageAPI():
 
     def __init__(self):
         self.base_path = "https://www.alphavantage.co/query?function="
-        self.api_key ='demo'
+        self.api_key = Config.ALPHA_VANTAGE_API
         self.apikey_URL ='&apikey='
         self.sym_URL = '&symbol='
 
@@ -15,20 +16,23 @@ class AlphaVantageAPI():
         globalQuote = 'GLOBAL_QUOTE'
         url = self.base_path + globalQuote + self.sym_URL + symbol + self.apikey_URL + self.api_key
         response = requests.get(url)
-        data = response.json()['Global Quote']
-        symbol = data['01. symbol']
-        opens = data['02. open']
-        high = data['03. high']
-        low = data['04. low']
-        price = data['05. price']
-        volume = data['06. volume']
-        last_trading_day = data['07. latest trading day']
-        prev_close = data['08. previous close']
-        change = data['09. change']
-        change_per = data['10. change percent']
+        try:
+            data = response.json()['Global Quote']
+            symbol = data['01. symbol']
+            opens = data['02. open']
+            high = data['03. high']
+            low = data['04. low']
+            price = data['05. price']
+            volume = data['06. volume']
+            last_trading_day = data['07. latest trading day']
+            prev_close = data['08. previous close']
+            change = data['09. change']
+            change_per = data['10. change percent']
 
-        quoteEndpoint = QuoteEndpoint(symbol,opens,high,low,price,volume,last_trading_day,prev_close,change,change_per)
-        return quoteEndpoint
+            quoteEndpoint = QuoteEndpoint(symbol,opens,high,low,price,volume,last_trading_day,prev_close,change,change_per)
+            return quoteEndpoint
+        except KeyError:
+            return None
 
 # https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=SAIC&apikey=demo
     def getSearchEndpoint(self,keyWord):
@@ -54,7 +58,7 @@ class AlphaVantageAPI():
                 searchPoints.append(serachEndpoint)
             return searchPoints 
         except KeyError:
-            return 'not available'
+            return None
 
 
 
