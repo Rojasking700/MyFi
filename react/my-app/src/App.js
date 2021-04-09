@@ -5,7 +5,7 @@ import Navbar from './components/Navbar';
 import Home from './views/Home';
 import Charts from './components/Chart';
 import SearchResults from './views/SearchResults';
-import { Redirect } from 'react-router-dom'
+// import { Redirect } from 'react-router-dom'
 import QouteEndpoint from './views/QouteEndpoint';
 import Signup from './views/Signup';
 import Login from './views/Login';
@@ -36,7 +36,7 @@ export default class App extends Component {
     })
     let token = await this.getToken(username,password);
     this.setState({token : token['token']});
-    console.log('log in', token)
+    // console.log('log in', token)
 
   }
 
@@ -50,7 +50,7 @@ export default class App extends Component {
     let token = await res.json();
     console.log('token', token['token'])
     ls.set('token', token['token'])
-    console.log('local storage token', ls.get('token'))
+    // console.log('local storage token', ls.get('token'))
 
     return token
   }
@@ -66,10 +66,10 @@ export default class App extends Component {
         }
       })
       let Authorization = await res.json()
-      console.log('Authorization', Authorization['token'])
+      // console.log('Authorization', Authorization['token'])
       return Authorization['token']
     }
-    console.log('Authorization', ls.get('token'))
+    // console.log('Authorization', ls.get('token'))
     return false
   }
 
@@ -84,7 +84,7 @@ export default class App extends Component {
       // redirect1 : `/searchresults`,
       keyword : e.target.keyword.value
   });
-  console.log("keyword",this.state.keyword)
+  // console.log("keyword",this.state.keyword)
 }
 
 

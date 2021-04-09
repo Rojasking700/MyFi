@@ -16,11 +16,11 @@ export default class Navbar extends Component {
     }
 
     async componentDidMount(){
-        console.log('mounted navbar',Date().toLocaleString());
+        // console.log('mounted navbar',Date().toLocaleString());
         let validToken = await this.props.checkToken();
-        console.log('validToken',validToken)
+        // console.log('validToken',validToken)
         this.setState({'validToken': validToken})
-        console.log('this.state.validtoken',this.state.validToken)
+        // console.log('this.state.validtoken',this.state.validToken)
         return validToken
     }
 
@@ -30,10 +30,9 @@ export default class Navbar extends Component {
         // e.preventDefault();
     
         this.setState({
-          // redirect1 : `/searchresults`,
           keyword : document.getElementById('keyword').value
       });
-      console.log("keyword",this.state.keyword)
+    //   console.log("keyword",this.state.keyword)
     }
     
     render() {

@@ -15,30 +15,17 @@ export default class Chart extends Component {
         }
     }
       
-    async componentDidMount(){
-        console.log('mounttttttttttt')
-        let res1 = await fetch(`http://127.0.0.1:5000/info/timeseries/MONTHLY_ADJUSTED/${this.props.match}`, {methods:'POST'});
-        let timechart = await res1.json()
-        this.setState({TimeChart : timechart});
-        console.log('time chart',this.state.TimeChart)
-        
-    }
+    // async componentDidMount(){
+    //     console.log('mounttttttttttt')
+    // }
       
       
       render() {
         
-       const g = this.props.GlobalQoute;
-       //    console.log('chart g ', g)
-       let tc = this.state.TimeChart;
-    //    let newMap = tc.map(function(stuff){
-    //     // dataPoints.push({x: new Date(time), y: Number(close)});
-    //     console.log(stuff.close)
-    // });
     let test = this.props.match
 
-    console.log('trial time1',test);
+    // console.log('trial time1',test);
         window.onload = function () {
-            console.log('trial time2',tc);
 
             CanvasJS.addColorSet("blueShades",[//colorSet Array
                 "#00f2ff",

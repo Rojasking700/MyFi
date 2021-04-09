@@ -1,8 +1,26 @@
 import React, { Component } from 'react'
 
 export default class GlobalQoute extends Component {
+    constructor(){
+        super();
+        this.state = {
+            GlobalQuote : []
+        }
+    }
+
+    async componentDidMount(){
+        // console.log('match',this.props.match)
+        let res = await fetch(`http://127.0.0.1:5000/info/globalqoute/${this.props.match}`, {method:'POST'});
+        let globalqoute = await res.json()
+        // console.log('global qoute', globalqoute)
+        this.setState({GlobalQuote: globalqoute})
+        // console.log('this state global qoute', this.state.GlobalQoute)
+
+
+    }
+
     render() {
-        const g = this.props.GlobalQoute;
+        const g = this.state.GlobalQuote;
         return (
             <div>
                 

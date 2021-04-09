@@ -13,23 +13,14 @@ export default class SearchResults extends Component {
 
     async searchSymbol(e) {
         e.preventDefault()
-        console.log("search results mounted")
+        // console.log("search results mounted")
         let keyword = e.target.keyword.value
-        console.log('keyword', keyword)
-        let res = await fetch(`http://127.0.0.1:5000/info/search/${keyword}`, {
-            method: 'POST'
-            // headers: { 
-            //     'Content-Type': 'application/json'
-            // }
-            // body: JSON.stringify({
-            //     "keyword" : e.target.keyword.value
-            //     // "keyword" : "tesco"
-            // })
-        });
+        // console.log('keyword', keyword)
+        let res = await fetch(`http://127.0.0.1:5000/info/search/${keyword}`, {method: 'POST'});
         let results = await res.json()
-        console.log("results JSON", results)
+        // console.log("results JSON", results)
         this.setState({results: results})
-        console.log("results", this.state.results)
+        // console.log("results", this.state.results)
     }
 
     
