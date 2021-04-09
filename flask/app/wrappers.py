@@ -9,6 +9,7 @@ class AlphaVantageAPI():
     def __init__(self):
         self.base_path = "https://www.alphavantage.co/query?function="
         self.api_key = 'demo'
+        # self.api_key = Config.ALPHA_VANTAGE_API
         self.apikey_URL ='&apikey='
         self.sym_URL = '&symbol='
 
